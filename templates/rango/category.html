@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
+    <div class="page-header">
+        <h1>{{ category_name }}</h1>
+
+        <b id="like_count">{{ category.likes }}</b> people like this category.
+        {% if user.is_authenticated %}
+		    <button id ="likes" data-catid="{{category.id}}" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
+	    {% endif %}
+    </div>
+
+<div class="panel panel-primary">
+            <br/>
+
+
+    {% if category %}
+
+        {% if pages %}
+            <ul>
+                {% for page in pages %}
+                    <li>
+                        <a href="{% url 'goto' %}?page_id={{page.id}}">{{ page.title }}</a>
+                        {% if page.views > 1 %}
+                            ({{ page.views }} views)
+                        {% elif page.views == 1 %}
+                            ({{ page.views }} view)
+                        {% endif %}
+
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No pages currently in category.</strong>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_page'  category.slug %}">Add a Page</a>
+        {% endif %}
+
+    {% else %}
+        The specified category {{ category_name }} does not exist!
+    {% endif %}
+
+    {% if user.is_authenticated %}
+
+            <br/>
+            <form class="form-inline" id="user_form" method="post" action="{% url 'category'  category.slug %}">
+                {% csrf_token %}
+                <!-- Display the search form elements here -->
+                <input class="form-control" type="text" size="50" name="query" value="{{query}}" id="query" />
+                <input class="btn btn-primary" type="submit" name="submit" value="Search" />
+                <br />
+            </form>
+
+            <div class="panel">
+                {% if result_list %}
+                    <div class="panel-heading">
+                    <h3 class="panel-title">Results</h3>
+                    <!-- Display search results in an ordered list -->
+                    <div class="panel-body">
+                        <div class="list-group">
+                            {% for result in result_list %}
+                                <div class="list-group-item">
+                                    <h4 class="list-group-item-heading"><a href="{{ result.link }}">{{ result.title }}</a></h4>
+                                    <p class="list-group-item-text">{{ result.summary }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+
+    {%  endif %}
+     </div>
+{% endblock %}
+
+

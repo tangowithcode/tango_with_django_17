@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Index{% endblock %}
+
+	{% block body_block %}
+
+         <div class="page-header">
+                {% if user.is_authenticated %}
+          <h1>Rango says... hello {{ user.username }}!</h1>
+	    {% else %}
+	        <h1>Rango says... hello world!</h1>
+	    {% endif %}
+        </div>
+
+         <div class="row placeholders">
+            <div class="col-xs-12 col-sm-6 placeholder">
+
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                <h3 class="panel-title">Categories</h3>
+                </div>
+                </div>
+
+              {% if categories %}
+	            <ul class="list-group">
+	                {% for category in categories %}
+	                 <li class="list-group-item"><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
+	                {% endfor %}
+	            </ul>
+	        {% else %}
+	            <strong>There are no categories present.</strong>
+	        {% endif %}
+
+            </div>
+            <div class="col-xs-12 col-sm-6 placeholder">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                <h3 class="panel-title">Pages</h3>
+                </div>
+                </div>
+
+                {% if pages %}
+	            <ul class="list-group">
+	                {% for page in pages %}
+	                 <li class="list-group-item"><a href="{{page.url}}">{{ page.title }}</a></li>
+	                {% endfor %}
+	            </ul>
+	        {% else %}
+	            <strong>There are no categories present.</strong>
+	        {% endif %}
+            </div>
+
+          </div>
+
+
+       <p> visits: {{ visits }}</p>
+	{% endblock %}
+
+
+<!---
+
+  <h1 class="page-header">Dashboard</h1>
+
+          <div class="row placeholders">
+            <div class="col-xs-12 col-sm-6 placeholder">
+              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-12 col-sm-6 placeholder">
+              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+
+          </div>
+
+          <h2 class="sub-header">Section title</h2>
+
+
+          --!>
