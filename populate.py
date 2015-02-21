@@ -37,7 +37,7 @@ def populate():
         title="How to Tango with Django",
         url="http://www.tangowithdjango.com/")
 
-    frame_cat = add_cat("Other Frameworks",32,16)
+    frame_cat = add_cat("Other Frameworks",32,13)
 
     add_page(cat=frame_cat,
         title="Bottle",
